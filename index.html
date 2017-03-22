@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Trivia!</title>
+
+		<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+  <!-- JQuery -->
+  <script src="https://code.jquery.com/jquery.js"></script>
+
+  <script src="assets/javascript/app.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+</head>
+<body>
+
+<div class="jumbotron text-center">
+  <h1>NBA Trivia!</h1>
+  <p>Click the start button to play!</p>
+  <p id="start" ><a class="btn btn-primary btn-lg" href="#" role="button">Start</a></p>
+</div>
+
+<div class="container">
+
+	<div class="row"> 
+		<div class=".col-md-12"><span id="show-number"></span></div>
+	</div> 
+
+	<div class="row"> 
+		<div class=".col-md-12"><span id="question"></span></div>
+	</div> 
+	<div class="row"> 
+		<div class=".col-md-12">
+			<a class="btn btn-standard btn-lg" href="#" role="button" id="answer1"></a>
+		</div>
+	</div> 
+	<div class="row">
+		<div class=".col-md-12">
+			<a class="btn btn-standard btn-lg" href="#" role="button" id="answer2"></a>
+		</div>
+	</div> 
+	<div class="row">
+		<div class=".col-md-12">
+			<a class="btn btn-standard btn-lg" href="#" role="button" id="answer3"></a>
+		</div>
+	</div> 
+	<div class="row">
+		<div class=".col-md-12">
+			<a class="btn btn-standard btn-lg" href="#" role="button" id="answer4"></a>
+		</div>
+	</div> 
+
+</div>
+
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+
+	var trivia = [
+
+	["Who had the longest suspension from the Malice at the Palace?", ["Ron Artest", "Jamaal Tinsley", "Stephen Jackson", "Ben Wallace"], 1],
+
+	["Which team won back-to-back-to-back championships from 2000-2002?", ["Nets", "Spurs", "Lakers", "Suns"], 3],
+
+	["Who holds the record for most threes in his career?", ["Ray Allen", "Reggie Miller", "Stephen Curry", "Paul Pierce"], 1],
+
+	["Which team pulled a stunning upset over #1 Dallas Mavericks in the first round of playoffs in 2007?", ["Lakers", "Spurs", "Warriors", "Clippers"], 3],
+
+	["q5", ["a1", "a2", "a3", "a4"], 4],
+
+	["q6", ["a1", "a2", "a3", "a4"], 4],
+
+
+	];
+
+	//Start button
+
+	var correct;
+	var incorrect;
+	var choice;
+	var number = 10;	
+	var countdown;
+
+	function validate() {
+
+		setTimeout(function(){ 
+
+			if (trivia[i][1].indexOf(choice) == trivia[i][3]) {
+				correct++;
+				$("#question").empty();
+				$("#answer1").empty();
+				$("#answer2").empty();
+				$("#answer3").empty();
+				$("#answer4").empty();
+
+				$("#question").html("<h3>"+"You are correct!"+"</h3>");
+				number = 10;
+
+
+			}
+
+			else {
+				incorrect++;
+				$("#question").empty();
+				$("#answer1").empty();
+				$("#answer2").empty();
+				$("#answer3").empty();
+				$("#answer4").empty();
+
+				$("#question").html("<h3>"+"You are wrong! The correct answer is "+ trivia[i][1][trivia[i][3]] +"</h3>");				
+				number = 10;
+			} 
+	}, 5000);
+
+	}
+
+	// timer code
+
+    function run() {
+      intervalId = setInterval(decrement, 1000);
+    }
+
+    //  The decrement function.
+    function decrement() {
+
+      //  Decrease number by one.
+      number--;
+
+      //  Show the number in the #show-number tag.
+      $("#show-number").html("<h2>" + number + "</h2>");
+
+
+      //  Once number hits zero...
+      if (number === 0) {
+
+        //  ...run the stop function.
+        timeUp();
+
+      }
+    }
+
+    //  The stop function
+    function stop() {
+
+      clearInterval(intervalId);
+    }
+
+    function stopCountdown() {
+    	clearTimeout(countdown);
+    }
+
+			//
+
+	function timeUp() {
+
+				incorrect++;
+				$("#question").empty();
+				$("#answer1").empty();
+				$("#answer2").empty();
+				$("#answer3").empty();
+				$("#answer4").empty();
+
+				$("#question").html("<h3>"+"Time is up! The correct answer is "+ trivia[i][1][trivia[i][3]] +"</h3>");				
+				number = 10;
+
+	}
+
+	$("#start").on("click", function () {
+
+		$("#start").empty();
+
+		for (var i = 0; i < trivia.length; i++) {
+
+			run();
+			
+			countdown = setTimeout(function() {
+
+			}, 10000)
+
+			$("#question").html("<h3>"+trivia[i][0]+"</h3>");
+			$("#answer1").html(trivia[i][1][0]).on("click", function() {
+				choice = trivia[i][1][0];
+				validate();
+				stopCountdown();
+			});
+			$("#answer2").html(trivia[i][1][1]).on("click", function() {
+				choice = trivia[i][1][1];
+				validate();
+				stopCountdown();
+			});
+			$("#answer3").html(trivia[i][1][2]).on("click", function() {
+				choice = trivia[i][1][2];
+				validate();
+				stopCountdown();
+			});
+			$("#answer4").html(trivia[i][1][3]).on("click", function() {
+				choice = trivia[i][1][3];
+				validate();
+				stopCountdown();
+			});
+
+		
+		}
+
+		
+
+
+	});
+
+});
+
+
+
+	
+
+</script>
+
+</body>
+</html>
